@@ -59,5 +59,15 @@ namespace YouAreAnIdiot.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap You_are_an_idiot {
+            get {
+                object obj = ResourceManager.GetObject("You-are-an-idiot", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

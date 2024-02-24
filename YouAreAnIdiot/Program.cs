@@ -1,44 +1,46 @@
 using System.Diagnostics;
-using System.IO;
 using System.Reflection;
-using System.Windows.Forms;
 using System.Media;
 
 namespace YouAreAnIdiot
 {
     internal static class Program
     {
-        private const string Path = "control.txt";
-        static int i;
+        private const string Path = "C:\\Users\\Public\\youareanidiot.txt";
+        public static int i;
+        public static bool FocusWindow = false;
+        public const bool SafeMode = true;
 
         [STAThread]
         static void Main()
         {
-            ApplicationConfiguration.Initialize();
             ExecutionsLogic();
-            Application.ApplicationExit += OnApplicationExit;
+            if (ExecutionWarning() == -1)
+            {
+                File.Delete(Path);
+                return;
+            }
+            ApplicationConfiguration.Initialize();
+            Application.ApplicationExit += OnApplicationExit!;
             Application.Run(new Form1());
         }
         private static void OnApplicationExit(object sender, EventArgs e)
         {
-            if (i < 3)
+            if (!SafeMode)
             {
                 OpenItself();
-                return;
             }
-            File.Delete(Path);
         }
         public static void OpenItself()
         {
-            bool safeMode = false;
-            if (i < 3 || !safeMode) //safe safe yey yey
+            if (!SafeMode)
             {
                 for (int j = 0; j < i; j++)
                 {
                     Process.Start(Application.ExecutablePath);
                 }
             }
-            
+
         }
         private static void ExecutionsLogic()
         {
@@ -46,7 +48,6 @@ namespace YouAreAnIdiot
             {
                 string text = File.ReadAllText(Path);
                 int.TryParse(text, out i);
-                File.Delete(Path); // remove file after get i value
             }
             i++;
             File.WriteAllText(Path, i.ToString()); // write i value for the next execution
@@ -65,6 +66,25 @@ namespace YouAreAnIdiot
                     player.PlayLooping();
                 }
             }
+        }
+
+        private static int ExecutionWarning()
+        {
+            if (i > 1)
+            {
+                return 0; // warning only for the first execution
+            }
+            DialogResult dialog = MessageBox.Show("Warning: this program is a \"virus\". It will probably led your computer to crash. Please save your work before continuing. Do you want to continue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialog != DialogResult.Yes)
+            {
+                return -1;
+            }
+            dialog = MessageBox.Show("Last warning. Do you want to continue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialog != DialogResult.Yes)
+            {
+                return -1;
+            }
+            return 0;
         }
     }
 }
