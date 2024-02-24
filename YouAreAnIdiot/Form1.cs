@@ -1,9 +1,13 @@
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
+
 namespace YouAreAnIdiot
 {
     public partial class Form1 : Form
     {
-        private readonly Random _random = new();
-        private readonly System.Windows.Forms.Timer _timer = new();
+        private readonly Random _random = new Random();
+        private readonly Timer _timer = new Timer();
         private Point _targetLocation;
 
         public Form1()
@@ -26,10 +30,9 @@ namespace YouAreAnIdiot
             Location = GetRandomLocation();
 
             _timer.Interval = 50; // Move every 50 ms
-            _timer.Tick += Timer_Tick!;
+            _timer.Tick += Timer_Tick;
             _timer.Start();
         }
-
         private void Timer_Tick(object sender, EventArgs e)
         {
             var dx = _targetLocation.X - Location.X;
@@ -46,10 +49,9 @@ namespace YouAreAnIdiot
                 Activate();
             }
         }
-
         private Point GetRandomLocation()
         {
-            int x = _random.Next(Math.Abs(Screen.PrimaryScreen!.WorkingArea.Width - Width));
+            int x = _random.Next(Math.Abs(Screen.PrimaryScreen.WorkingArea.Width - Width));
             int y = _random.Next(Math.Abs(Screen.PrimaryScreen.WorkingArea.Height - Height));
             return new Point(x, y);
         }

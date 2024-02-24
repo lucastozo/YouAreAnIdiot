@@ -1,6 +1,9 @@
+﻿using System;
 using System.Diagnostics;
-using System.Reflection;
+using System.IO;
 using System.Media;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace YouAreAnIdiot
 {
@@ -20,16 +23,10 @@ namespace YouAreAnIdiot
                 File.Delete(Path);
                 return;
             }
-            ApplicationConfiguration.Initialize();
-            Application.ApplicationExit += OnApplicationExit!;
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-        }
-        private static void OnApplicationExit(object sender, EventArgs e)
-        {
-            if (!SafeMode)
-            {
-                OpenItself();
-            }
+            
         }
         public static void OpenItself()
         {
@@ -67,7 +64,6 @@ namespace YouAreAnIdiot
                 }
             }
         }
-
         private static int ExecutionWarning()
         {
             if (i > 1)
