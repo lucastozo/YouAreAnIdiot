@@ -13,7 +13,7 @@ namespace YouAreAnIdiot
         public Form1()
         {
             InitializeComponent();
-            //Program.PlaySound();
+            Program.PlaySound();
             // "corrupt" the form
             if (Program.i > 2 && !Program.SafeMode)
             {

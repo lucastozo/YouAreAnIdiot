@@ -44,16 +44,20 @@ namespace YouAreAnIdiot
         {
             i = ReturnExecutions();
             i++;
+            ShowFile();
             File.WriteAllText(Path, i.ToString()); // write i value for the next execution
+            HideFile();
         }
 
         private static int ReturnExecutions()
         {
             int times = 0;
+            ShowFile();
             if (File.Exists(Path))
             {
                 string text = File.ReadAllText(Path);
                 int.TryParse(text, out times);
+                HideFile();
             }
             return times;
         }
@@ -90,6 +94,18 @@ namespace YouAreAnIdiot
                 return -1;
             }
             return 0;
+        }
+
+        private static void HideFile()
+        {
+            if (File.Exists(Path))
+                File.SetAttributes(Path, File.GetAttributes(Path) | FileAttributes.Hidden);
+        }
+
+        private static void ShowFile()
+        {
+            if (File.Exists(Path))
+                File.SetAttributes(Path, File.GetAttributes(Path) & ~FileAttributes.Hidden);
         }
     }
 }
