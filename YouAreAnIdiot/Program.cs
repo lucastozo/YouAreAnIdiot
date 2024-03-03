@@ -23,7 +23,6 @@ namespace YouAreAnIdiot
                 File.Delete(Path);
                 return;
             }
-            PanicButton();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
@@ -80,6 +79,10 @@ namespace YouAreAnIdiot
         }
         private static int ExecutionWarning()
         {
+            if(i < 0)
+            {
+                return -1;
+            }
             if (i > 1)
             {
                 return 0; // warning only for the first execution
@@ -107,25 +110,6 @@ namespace YouAreAnIdiot
         {
             if (File.Exists(Path))
                 File.SetAttributes(Path, File.GetAttributes(Path) & ~FileAttributes.Hidden);
-        }
-
-        public static void PanicButton()
-        {
-            //char keyPressed
-            if (i > 20)
-            {
-                File.WriteAllText(Path, "-999");
-                //var processes = Process.GetProcesses(Application.ExecutablePath);
-                /*
-                foreach (var process in processes)
-                {
-                    Application.Exit();
-                    File.Delete(Path);
-                }
-                */
-                Application.Exit();
-                File.Delete(Path);
-            }
         }
     }
 }
