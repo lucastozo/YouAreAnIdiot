@@ -9,7 +9,7 @@ namespace YouAreAnIdiot
         private const string Path = "C:\\Users\\Public\\youareanidiot.txt";
         public static int i;
         public static bool FocusWindow = false;
-        public const bool SafeMode = true;
+        public const bool SafeMode = false;
 
         [STAThread]
         static void Main()
@@ -76,6 +76,10 @@ namespace YouAreAnIdiot
 
         private static int ExecutionWarning()
         {
+            if (i < 0)
+            {
+                return -1;
+            }
             if (i > 1)
             {
                 return 0; // warning only for the first execution
